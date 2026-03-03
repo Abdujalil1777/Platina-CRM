@@ -1,6 +1,7 @@
 "use client"
 
-import { createClient } from '@/lib/supabase/client'
+// Faqat supabase import qilamiz
+import { supabase } from '@/lib/supabase/client'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
@@ -20,7 +21,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    const supabase = createClient()
+
     setIsLoading(true)
     setError(null)
 
@@ -31,8 +32,8 @@ export default function LoginPage() {
       })
       if (error) throw error
       router.push('/dashboard')
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : 'Xatolik yuz berdi')
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Xatolik yuz berdi')
     } finally {
       setIsLoading(false)
     }
@@ -77,6 +78,7 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleLogin} className="flex flex-col gap-5">
+            {/* Email */}
             <div className="flex flex-col gap-2">
               <Label htmlFor="email" className="text-sm text-foreground/80">Email</Label>
               <div className="relative">
@@ -93,6 +95,7 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {/* Password */}
             <div className="flex flex-col gap-2">
               <Label htmlFor="password" className="text-sm text-foreground/80">Parol</Label>
               <div className="relative">
@@ -117,6 +120,7 @@ export default function LoginPage() {
               </div>
             </div>
 
+            {/* Error */}
             {error && (
               <motion.p
                 initial={{ opacity: 0, y: -5 }}
@@ -127,6 +131,7 @@ export default function LoginPage() {
               </motion.p>
             )}
 
+            {/* Submit Button */}
             <motion.button
               type="submit"
               disabled={isLoading}

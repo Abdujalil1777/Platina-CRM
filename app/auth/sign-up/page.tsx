@@ -1,6 +1,7 @@
 "use client"
 
-import { createClient } from '@/lib/supabase/client'
+
+import { supabase } from '@/lib/supabase/client'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
@@ -22,7 +23,7 @@ export default function SignUpPage() {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
-    const supabase = createClient()
+
     setIsLoading(true)
     setError(null)
 
@@ -33,7 +34,7 @@ export default function SignUpPage() {
     }
 
     if (password.length < 6) {
-      setError('Parol kamida 6 ta belgidan iborat bo\'lishi kerak')
+      setError("Parol kamida 6 ta belgidan iborat bo'lishi kerak")
       setIsLoading(false)
       return
     }
@@ -53,8 +54,8 @@ export default function SignUpPage() {
       })
       if (error) throw error
       router.push('/auth/sign-up-success')
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : 'Xatolik yuz berdi')
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Xatolik yuz berdi')
     } finally {
       setIsLoading(false)
     }
@@ -98,7 +99,9 @@ export default function SignUpPage() {
             </p>
           </div>
 
+          {/* Form */}
           <form onSubmit={handleSignUp} className="flex flex-col gap-4">
+            {/* Full Name */}
             <div className="flex flex-col gap-2">
               <Label htmlFor="fullName" className="text-sm text-foreground/80">To&apos;liq ism</Label>
               <div className="relative">
@@ -115,6 +118,7 @@ export default function SignUpPage() {
               </div>
             </div>
 
+            {/* Email */}
             <div className="flex flex-col gap-2">
               <Label htmlFor="email" className="text-sm text-foreground/80">Email</Label>
               <div className="relative">
@@ -131,6 +135,7 @@ export default function SignUpPage() {
               </div>
             </div>
 
+            {/* Password */}
             <div className="flex flex-col gap-2">
               <Label htmlFor="password" className="text-sm text-foreground/80">Parol</Label>
               <div className="relative">
@@ -155,6 +160,7 @@ export default function SignUpPage() {
               </div>
             </div>
 
+            {/* Repeat Password */}
             <div className="flex flex-col gap-2">
               <Label htmlFor="repeatPassword" className="text-sm text-foreground/80">Parolni tasdiqlash</Label>
               <div className="relative">
@@ -171,6 +177,7 @@ export default function SignUpPage() {
               </div>
             </div>
 
+            {/* Error */}
             {error && (
               <motion.p
                 initial={{ opacity: 0, y: -5 }}
@@ -181,6 +188,7 @@ export default function SignUpPage() {
               </motion.p>
             )}
 
+            {/* Submit Button */}
             <motion.button
               type="submit"
               disabled={isLoading}
@@ -194,17 +202,14 @@ export default function SignUpPage() {
                   {"Yaratilmoqda..."}
                 </>
               ) : (
-                "Ro'yxatdan o'tish"
+                'Ro\'yxatdan o\'tish'
               )}
             </motion.button>
           </form>
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
-            Hisobingiz bormi?{' '}
-            <Link
-              href="/auth/login"
-              className="text-primary hover:text-primary/80 transition-colors font-medium"
-            >
+            {"Allaqachon hisobingiz bormi? "}
+            <Link href="/auth/login" className="text-primary hover:underline">
               Kirish
             </Link>
           </div>
